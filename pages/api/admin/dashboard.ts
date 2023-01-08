@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { dbOrders, dbProducts, dbUsers } from "../../../database";
+import { db } from "../../../database";
 import { Order, Product, User } from "../../../models";
 
 type Data = {
@@ -18,6 +18,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 const getStatisticValues = async () => {
+  await db.connect();
+
   const [numberOfOrders, paidOrders, numberOfClients, numberOfProducts, productsWithNoInventory, lowInventory] =
     await Promise.all([
       Order.count(),
@@ -28,6 +30,8 @@ const getStatisticValues = async () => {
       Product.find({ inStock: { $lte: 10 } }).count(),
     ]);
   const notPaidOrders = numberOfOrders - paidOrders;
+
+  await db.disconnect();
 
   return {
     numberOfOrders,

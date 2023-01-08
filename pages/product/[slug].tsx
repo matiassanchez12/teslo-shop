@@ -16,7 +16,7 @@ interface Props {
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
-  const { cart, addProductToCart } = useContext(CartContext);
+  const { addProductToCart } = useContext(CartContext);
   const { push } = useRouter();
   const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
     _id: product._id,
@@ -115,7 +115,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug = "" } = params as { slug: string };
 
-  const product = await dbProducts.getProductBySlug(slug);
+  const product = await dbProducts.getProductBySlug(slug.toString());
 
   if (!product) {
     return {
