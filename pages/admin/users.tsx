@@ -5,7 +5,7 @@ import { DataGrid, GridColDef, GridValidRowModel } from "@mui/x-data-grid";
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
 import useSWR from "swr";
 import { IUser } from "../../interfaces";
-import tesloApi from "../../api/tesloApi";
+import tesloApi from "../../axiosApi/tesloApi";
 
 const UsersPage = () => {
   const { data, error } = useSWR<IUser[]>("/api/admin/users");

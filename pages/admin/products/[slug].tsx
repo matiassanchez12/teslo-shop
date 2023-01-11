@@ -5,7 +5,7 @@ import { IProduct } from "../../../interfaces";
 import { DriveFileRenameOutline, SaveOutlined, UploadOutlined } from "@mui/icons-material";
 import { dbProducts } from "../../../database";
 import { useForm } from "react-hook-form";
-import tesloApi from "../../../api/tesloApi";
+import tesloApi from "../../../axiosApi/tesloApi";
 import {
   Box,
   Button,
