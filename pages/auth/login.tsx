@@ -14,21 +14,21 @@ type FormData = {
   password: string;
 };
 
-const LoginPage = () => {
+const LoginPage = ({ providers }: any) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
   const [showError, setShowError] = useState(false);
-  const [providers, setProviders] = useState<any>({});
+  // const [providers, setProviders] = useState<any>({});
   const router = useRouter();
 
-  useEffect(() => {
-    getProviders().then((prov) => {
-      setProviders(prov);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getProviders().then((prov) => {
+  //     setProviders(prov);
+  //   });
+  // }, []);
 
   const onLoginUser = async ({ email, password }: FormData) => {
     setShowError(false);
@@ -119,6 +119,8 @@ const LoginPage = () => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const session = await getSession({ req });
+  const providers = await getProviders();
+
   const { p = "/" } = query;
 
   if (session) {
@@ -131,7 +133,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   }
 
   return {
-    props: {},
+    props: { providers },
   };
 };
 
