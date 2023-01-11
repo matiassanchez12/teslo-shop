@@ -14,7 +14,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
   const productImage = useMemo(() => {
     return isHovered ? product.images[1] : product.images[0];
   }, [isHovered, product.images]);
-  console.log(product);
+
   return (
     <Grid item xs={6} sm={4} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <Card>
