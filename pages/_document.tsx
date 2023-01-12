@@ -12,6 +12,10 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+          <script
+            src="https://www.paypal.com/sdk/js?client-id=AYoFtmOw2TYTlYeLOcRFcKZIR3cUbCCqDmmmz2HYj9dhrlof5Vbzg7V-XCtOGwvtD9LopZoKECUUvZwV&vault=true"
+            async
+          />
         </Head>
         <body>
           <Main />
