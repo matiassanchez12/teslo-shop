@@ -1,5 +1,5 @@
 import { Card, CardContent, Divider, Grid, Typography, Box, Chip, CircularProgress } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { OrderSummary } from "../../components/cart";
 import { ShopLayout } from "../../components/layouts";
@@ -8,7 +8,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import { dbOrders } from "../../database";
 import { IOrder } from "../../interfaces";
-import { PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButtons, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import tesloApi from "../../axiosApi/tesloApi";
 import { useRouter } from "next/router";
 import { countries } from "../../utils";
@@ -29,6 +29,22 @@ const OrderPage: NextPage<Props> = ({ order }) => {
   const { _id, isPaid, numberOfItems, shippingAddress, orderItems, subTotal, tax, total } = order;
   const [isPaying, setIsPaying] = useState(false);
   const countryName = countries.find((country) => country.code === shippingAddress.country)!.name || "No encontrado";
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  useEffect(() => {
+    const loadPaypalScript = async () => {
+      paypalDispatch({
+        type: "resetOptions",
+        value: {
+          "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+          currency: "USD",
+        },
+      });
+
+      paypalDispatch({ type: "setLoadingStatus", value: SCRIPT_LOADING_STATE.PENDING });
+    };
+    loadPaypalScript();
+  }, [paypalDispatch]);
 
   const onOrderCompleted = async (details: OrderResponseBody) => {
     if (details.status !== "COMPLETED") {
@@ -110,7 +126,7 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                 </Box>
 
                 <Box sx={{ display: isPaying ? "none" : "flex", flex: 1, flexDirection: "column" }}>
-                  {isPaid ? (
+                  {isPaid && !isPending && (
                     <Chip
                       sx={{ my: 2 }}
                       label="Orden ya fue pagada"
@@ -118,18 +134,26 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                       color="success"
                       icon={<CreditScoreOutlined />}
                     />
-                  ) : (
+                  )}
+
+                  {!isPaid && isPending && <CircularProgress />}
+
+                  {!isPaid && !isPending && (
                     <PayPalButtons
                       createOrder={(data, actions) => {
-                        return actions.order.create({
-                          purchase_units: [
-                            {
-                              amount: {
-                                value: order.total.toString(),
+                        return actions.order
+                          .create({
+                            purchase_units: [
+                              {
+                                amount: {
+                                  value: order.total.toString(),
+                                },
                               },
-                            },
-                          ],
-                        });
+                            ],
+                          })
+                          .then((orderID) => {
+                            return orderID;
+                          });
                       }}
                       onError={(err) => {
                         console.log(err);
