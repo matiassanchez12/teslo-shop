@@ -5,8 +5,6 @@ import { ProductList } from "../components/products/ProductList";
 import { useProducts } from "../hooks";
 import { FullScreenLoading } from "../components/ui";
 
-const fetcher = (...args: [key: string]) => fetch(...args).then((res) => res.json());
-
 const HomePage: NextPage = () => {
   const { products, isLoading } = useProducts("/products");
 

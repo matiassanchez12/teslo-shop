@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../database";
-import Product from "../../../models/Product";
+import { Product } from "../../../models";
 import { IProduct } from "../../../interfaces";
 
 type Data =
@@ -23,7 +23,7 @@ const searchProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) =
 
   if (q.length === 0) {
     return res.status(400).json({
-      message: "Debe de especificar el query de búsqueda",
+      message: "Debe de especificar el query de búsqueda"
     });
   }
 
@@ -34,7 +34,7 @@ const searchProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) =
   await db.connect();
 
   const products = await Product.find({
-    $or: [{ title: regex }, { tags: { $in: [regex] } }],
+    $or: [{ title: regex }, { tags: { $in: [regex] } }]
   })
     .select("title images price inStock slug -_id")
     .lean();

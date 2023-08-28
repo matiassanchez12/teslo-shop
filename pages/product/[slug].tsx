@@ -3,6 +3,7 @@ import { NextPage, GetStaticPaths, GetStaticProps } from "next";
 import React, { useContext, useState } from "react";
 import { ShopLayout } from "../../components/layouts";
 import { SizeSelector } from "../../components/products";
+
 import { ProductSlideshow } from "../../components/products/ProductSlideshow";
 import { ItemCounter } from "../../components/ui";
 import { IProduct, ISize } from "../../interfaces";
@@ -26,20 +27,20 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     slug: product.slug,
     title: product.title,
     gender: product.gender,
-    quantity: 1,
+    quantity: 1
   });
 
   const onSelect = (size: ISize) => {
     setTempCartProduct((currentProduct) => ({
       ...currentProduct,
-      size,
+      size
     }));
   };
 
   const handleUpdateCount = (value: number) => {
     setTempCartProduct((currentProduct) => ({
       ...currentProduct,
-      quantity: currentProduct.quantity + value,
+      quantity: currentProduct.quantity + value
     }));
   };
 
@@ -108,7 +109,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: "blocking"
   };
 };
 
@@ -121,16 +122,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       redirect: {
         destination: "/",
-        permanent: false,
-      },
+        permanent: false
+      }
     };
   }
 
   return {
     props: {
-      product,
+      product
     },
-    revalidate: 60 * 60 * 24,
+    revalidate: 60 * 60 * 24
   };
 };
 

@@ -9,6 +9,6 @@ export const useProducts = (url: string, config: SWRConfiguration = {}) => {
   return {
     products: data || [],
     isLoading: !error && !data,
-    isError: error,
+    isError: error
   };
 };

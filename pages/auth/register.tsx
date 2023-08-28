@@ -22,7 +22,7 @@ const RegisterPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<FormData>();
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -66,7 +66,7 @@ const RegisterPage = () => {
               fullWidth
               {...register("name", {
                 required: "Este campo es requerido",
-                minLength: { value: 2, message: "Mínimo 2 caracteres" },
+                minLength: { value: 2, message: "Mínimo 2 caracteres" }
               })}
               error={!!errors.name}
               helperText={errors.name?.message}
@@ -80,7 +80,7 @@ const RegisterPage = () => {
               fullWidth
               {...register("email", {
                 required: "Este campo es requerido",
-                validate: validations.isEmail,
+                validate: validations.isEmail
               })}
               error={!!errors.email}
               helperText={errors.email?.message}
@@ -95,7 +95,7 @@ const RegisterPage = () => {
               fullWidth
               {...register("password", {
                 required: "Este campo es requerido",
-                minLength: { value: 6, message: "Mínimo 6 caracteres" },
+                minLength: { value: 6, message: "Mínimo 6 caracteres" }
               })}
               error={!!errors.password}
               helperText={errors.password?.message}
@@ -128,13 +128,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     return {
       redirect: {
         destination: p.toString(),
-        permanent: false,
-      },
+        permanent: false
+      }
     };
   }
 
   return {
-    props: {},
+    props: {}
   };
 };
 

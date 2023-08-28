@@ -8,7 +8,6 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   // @ts-ignore
   const session: any = await getToken({ req, secret });
 
-  // console.log(process.env.GITHUB_ID, process.env.NEXTAUTH_SECRET);
   const { protocol, host, pathname } = req.nextUrl;
 
   const validRoles = ["admin", "super-user", "seo"];
@@ -35,5 +34,5 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
 }
 
 export const config = {
-  matcher: ["/checkout/:path*", "/orders/:path*", "/admin", "/api/admin/dashboard"],
+  matcher: ["/checkout/:path*", "/orders/:path*", "/admin", "/api/admin/dashboard"]
 };

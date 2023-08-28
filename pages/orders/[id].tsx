@@ -37,8 +37,8 @@ const OrderPage: NextPage<Props> = ({ order }) => {
         type: "resetOptions",
         value: {
           "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-          currency: "USD",
-        },
+          currency: "USD"
+        }
       });
 
       paypalDispatch({ type: "setLoadingStatus", value: SCRIPT_LOADING_STATE.PENDING });
@@ -56,12 +56,12 @@ const OrderPage: NextPage<Props> = ({ order }) => {
     try {
       const { data } = await tesloApi.post("/orders/pay", {
         transactionId: details.id,
-        orderId: order._id,
+        orderId: order._id
       });
 
       router.reload();
     } catch (error) {
-      setIsPaying(true);
+      setIsPaying(false);
       console.log(error);
       alert("error");
     }
@@ -146,10 +146,10 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                             purchase_units: [
                               {
                                 amount: {
-                                  value: order.total.toString(),
-                                },
-                              },
-                            ],
+                                  value: order.total.toString()
+                                }
+                              }
+                            ]
                           })
                           .then((orderID) => {
                             return orderID;
@@ -184,8 +184,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     return {
       redirect: {
         destination: `/auth/login?p=/orders/${id}`,
-        permanent: false,
-      },
+        permanent: false
+      }
     };
   }
 
@@ -195,8 +195,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     return {
       redirect: {
         destination: `/orders/history`,
-        permanent: false,
-      },
+        permanent: false
+      }
     };
   }
 
@@ -204,15 +204,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     return {
       redirect: {
         destination: `/orders/history`,
-        permanent: false,
-      },
+        permanent: false
+      }
     };
   }
 
   return {
     props: {
-      order,
-    },
+      order
+    }
   };
 };
 
