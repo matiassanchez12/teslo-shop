@@ -40,7 +40,6 @@ async function getProducts(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     return product;
   });
-
   res.status(200).json(updatedProducts);
 }
 

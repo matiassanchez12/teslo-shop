@@ -7,7 +7,7 @@ import { FullScreenLoading } from "../components/ui";
 
 const HomePage: NextPage = () => {
   const { products, isLoading } = useProducts("/products");
-
+  console.log(products)
   return (
     <ShopLayout title="Teslo-shop - Home" pageDescription="Los mejores productos de teslo">
       <Typography variant="h1" component="h1">
