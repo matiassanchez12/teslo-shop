@@ -35,7 +35,7 @@ async function getProducts(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   const updatedProducts = products.map((product) => {
     product.images = product.images.map((image) => {
-      return image.includes("http") ? image : `${process.env.HOST_NAME}/products/${image}`;
+      return `${process.env.S3_URL}/products/${image}`;
     });
 
     return product;

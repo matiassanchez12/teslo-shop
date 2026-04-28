@@ -67,7 +67,7 @@ export const Navbar = () => {
             autoFocus
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && onSearchTerm()}
+            onKeyDown={(e) => e.key === "Enter" && onSearchTerm()}
             type="text"
             placeholder="Buscar..."
             endAdornment={
