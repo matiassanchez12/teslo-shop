@@ -13,7 +13,12 @@ export default NextAuth({
         password: { label: "Contraseña:", type: "password", placeholder: "Contraseña" },
       },
       async authorize(credentials) {
-        return await dbUsers.checkUserEmailPassword(credentials!.email, credentials!.password);
+        try {
+          return await dbUsers.checkUserEmailPassword(credentials!.email, credentials!.password);
+        } catch (error) {
+          console.error("Authorize error:", error);
+          return null;
+        }
       },
     }),
     GithubProvider({
@@ -36,6 +41,9 @@ export default NextAuth({
   },
 
   callbacks: {
+    async signIn({ user, email, credentials }) {
+      return true;
+    },
     async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token || "";
@@ -46,7 +54,7 @@ export default NextAuth({
             break;
 
           case "credentials":
-            token.user = user;
+            token.user = user as any;
             break;
         }
       }

@@ -19,7 +19,7 @@ export const checkUserEmailPassword = async (email: string, password: string) =>
   const { role, name, _id } = user;
 
   return {
-    _id,
+    id: _id.toString(),
     email: email.toLocaleLowerCase(),
     role,
     name,
@@ -34,7 +34,7 @@ export const oAUthToDbUser = async (oAuthEmail: string, oAuthName: string) => {
   if (user) {
     await db.disconnect();
     const { _id, name, email, role } = user;
-    return { _id, name, email, role };
+    return { id: _id.toString(), name, email, role };
   }
 
   const newUser = new User({ email: oAuthEmail, name: oAuthName, password: "@", role: "client" });
@@ -42,7 +42,7 @@ export const oAUthToDbUser = async (oAuthEmail: string, oAuthName: string) => {
   await db.disconnect();
 
   const { _id, name, email, role } = newUser;
-  return { _id, name, email, role };
+  return { id: _id.toString(), name, email, role };
 };
 
 export const getNumberOfClients = async (): Promise<number> => {

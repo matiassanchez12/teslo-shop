@@ -14,26 +14,32 @@ type FormData = {
   password: string;
 };
 
-const LoginPage = ({ providers }: any) => {
+const LoginPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
   const [showError, setShowError] = useState(false);
-  // const [providers, setProviders] = useState<any>({});
+  const [providers, setProviders] = useState<any>({});
   const router = useRouter();
 
-  // useEffect(() => {
-  //   getProviders().then((prov) => {
-  //     setProviders(prov);
-  //   });
-  // }, []);
+  useEffect(() => {
+    getProviders().then((prov) => {
+      setProviders(prov);
+    });
+  }, []);
 
   const onLoginUser = async ({ email, password }: FormData) => {
     setShowError(false);
 
-    await signIn("credentials", { email, password });
+    const result = await signIn("credentials", { email, password, redirect: false });
+
+    if (result?.ok) {
+      router.push("/");
+    } else {
+      setShowError(true);
+    }
   };
 
   return (
@@ -94,7 +100,7 @@ const LoginPage = ({ providers }: any) => {
 
           <Grid item xs={12} display="flex" flexDirection="column" justifyContent="end">
             <Divider sx={{ width: "100%", mb: 2 }} />
-            {Object.values(providers).map((provider: any) => {
+            {/* {Object.values(providers).map((provider: any) => {
               if (provider.id === "credentials") return <div key="credentials"></div>;
 
               return (
@@ -109,7 +115,7 @@ const LoginPage = ({ providers }: any) => {
                   {provider.name}
                 </Button>
               );
-            })}
+            })} */}
           </Grid>
         </Grid>
       </Box>
