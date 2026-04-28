@@ -4,7 +4,7 @@ import NextLink from "next/link";
 import { OrderSummary } from "../../components/cart";
 import { ShopLayout } from "../../components/layouts";
 import dynamic from "next/dynamic";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { CartContext } from "../../context";
 import { countries } from "../../utils/countries";
 import { useRouter } from "next/router";

@@ -5,14 +5,20 @@ import { getToken } from "next-auth/jwt";
 const secret = process.env.NEXTAUTH_SECRET;
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  // @ts-ignore
   const session: any = await getToken({ req, secret });
 
   const { protocol, host, pathname } = req.nextUrl;
 
   const validRoles = ["admin", "super-user", "seo"];
+  const protectedRoutes = ["/admin/dashboard", "/admin/orders", "/admin/users", "/admin/products"];
 
-  if (pathname === "/api/admin/dashboard") {
+  if(pathname.startsWith("/api/")) {
+    if (!session) {
+      return NextResponse.redirect(`${protocol}//${host}/api/auth/unauthorized`);
+    }
+  }
+
+  if (protectedRoutes.includes(pathname)) {
     if (!session || (session && !validRoles.includes(session.user.role))) {
       return NextResponse.redirect(`${protocol}//${host}/api/auth/unauthorized`);
     }

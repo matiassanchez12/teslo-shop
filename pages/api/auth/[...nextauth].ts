@@ -1,10 +1,10 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 
 import { dbUsers } from "../../../database";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     Credentials({
       name: "Custom Login",
@@ -71,4 +71,6 @@ export default NextAuth({
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-});
+}
+
+export default NextAuth(authOptions);
