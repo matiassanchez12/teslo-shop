@@ -45,7 +45,7 @@ export const getProductsByTerm = async (term: string): Promise<IProduct[]> => {
 
   const updatedProducts = products.map((product) => {
     product.images = product.images.map((image) => {
-      return image.includes("http") ? image : `${process.env.HOST_NAME}/products/${image}`;
+      return `${process.env.S3_URL}/products/${image}`;
     });
 
     return product;
